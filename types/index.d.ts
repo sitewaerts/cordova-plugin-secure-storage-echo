@@ -10,19 +10,19 @@ interface SecureStorageOptionsOSSpecific {
 
 }
 
-interface SecureStorageOptionsAndroid extends SecureStorageOptionsOSSpecific{
+interface SecureStorageOptionsAndroid extends SecureStorageOptionsOSSpecific {
 
 }
 
-interface SecureStorageOptionsElectron extends SecureStorageOptionsOSSpecific{
+interface SecureStorageOptionsElectron extends SecureStorageOptionsOSSpecific {
 
 }
 
-interface SecureStorageOptionsIOS extends SecureStorageOptionsOSSpecific{
+interface SecureStorageOptionsIOS extends SecureStorageOptionsOSSpecific {
 
 }
 
-interface SecureStorageOptionsWindows extends SecureStorageOptionsOSSpecific{
+interface SecureStorageOptionsWindows extends SecureStorageOptionsOSSpecific {
 
 }
 
@@ -33,21 +33,19 @@ interface SecureStorageOptions {
     windows?: SecureStorageOptionsWindows
 }
 
-export class SecureStorage {
+interface SecureStorage {
 
-    constructor(success:()=>void, error:(error:any)=>void, service:string, options:SecureStorageOptions)
+    get: (success: (value: string) => void, error: (error: any) => void, key: string) => void
 
-    get: (success:(value:string)=>void, error:(error:any)=>void, key:string)=>void
+    set: (success: (key: string) => void, error: (error: any) => void, key: string, value: string | null) => void
 
-    set: (success:(key:string)=>void, error:(error:any)=>void, key:string, value:string|null)=>void
+    remove: (success: (key: string) => void, error: (error: any) => void, key: string) => void
 
-    remove: (success:(key:string)=>void, error:(error:any)=>void, key:string)=>void
+    keys: (success: (keys: Array<string>) => void, error: (error: any) => void) => void
 
-    keys: (success:(keys:Array<string>)=>void, error:(error:any)=>void)=>void
-
-    clear: (success:()=>void, error:(error:any)=>void)=>void
+    clear: (success: () => void, error: (error: any) => void) => void
 }
 
-interface CordovaPlugins{
-    SecureStorage: SecureStorage
+interface CordovaPlugins {
+    SecureStorage: new (success: () => void, error: (error: any) => void, service: string, options?: SecureStorageOptions) => SecureStorage
 }
