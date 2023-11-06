@@ -1,20 +1,20 @@
 var SecureStorage;
 
-var SUPPORTED_PLATFORMS = ['android', 'ios', 'windows'];
+var SUPPORTED_PLATFORMS = ['android', 'ios', 'windows', 'electron'];
 
-var _checkCallbacks = function (success, error) {
+function _checkCallbacks(success, error) {
     if (typeof success != 'function') {
         throw new Error('SecureStorage failure: success callback parameter must be a function');
     }
     if (typeof error != 'function') {
         throw new Error('SecureStorage failure: error callback parameter must be a function');
     }
-};
+}
 
-//Taken from undescore.js
-var _isString = function isString(x) {
+//Taken from underscore.js
+function _isString(x) {
     return Object.prototype.toString.call(x) === '[object String]';
-};
+}
 
 /**
  * Helper method to execute Cordova native method
@@ -25,7 +25,7 @@ var _isString = function isString(x) {
  * @param   {Function}  error            Called when returning error result from an action.
  *
  */
-var _executeNativeMethod = function (success, error, nativeMethodName, args) {
+function _executeNativeMethod(success, error, nativeMethodName, args) {
     var fail;
     // args checking
     _checkCallbacks(success, error);
@@ -35,7 +35,7 @@ var _executeNativeMethod = function (success, error, nativeMethodName, args) {
     fail = function(err) {
         // provide default message if no details passed to callback
         if (typeof err === 'undefined') {
-            error(new Error('Error occured while executing native method.'));
+            error(new Error('Error occurred while executing native method.'));
         } else {
             // wrap string to Error instance if necessary
             error(_isString(err) ? new Error(err) : err);
@@ -43,7 +43,7 @@ var _executeNativeMethod = function (success, error, nativeMethodName, args) {
     };
 
     cordova.exec(success, fail, 'SecureStorage', nativeMethodName, args);
-};
+}
 
 SecureStorage = function (success, error, service, options) {
     var platformId = cordova.platformId;

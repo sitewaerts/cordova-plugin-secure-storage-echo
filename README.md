@@ -14,7 +14,7 @@ such as usernames, passwords, tokens, certificates or other sensitive informatio
 - Android
 - iOS
 - Windows (Windows 8.x/Store, Windows 10/UWP and Windows Phone 8.1+)
-
+- Electron
 ### Contents
 
 - [Installation](#installation)
