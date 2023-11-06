@@ -80,7 +80,7 @@ const secureStoragePlugin = {
 
         let value = store.get(key);
         if(value)
-            value = safeStorage.decryptString(Buffer.from(value, 'utf-8')); // string to buffer
+            value = safeStorage.decryptString(Buffer.from(value, 'hex')); // string to buffer
         callbackContext.success(value);
     },
 
@@ -99,7 +99,7 @@ const secureStoragePlugin = {
         if(!value)
             store.delete(key);
         else
-            store.set(key, safeStorage.encryptString(value).toString('utf-8')); // buffer to string
+            store.set(key, safeStorage.encryptString(value).toString('hex')); // buffer to string
         callbackContext.success(key);
     },
 
