@@ -33,7 +33,9 @@ interface SecureStorageOptions {
     windows?: SecureStorageOptionsWindows
 }
 
-interface SecureStorage {
+export class SecureStorage {
+
+    constructor(success:()=>void, error:(error:any)=>void, service:string, options:SecureStorageOptions)
 
     get: (success:(value:string)=>void, error:(error:any)=>void, key:string)=>void
 
@@ -45,10 +47,6 @@ interface SecureStorage {
 
     clear: (success:()=>void, error:(error:any)=>void)=>void
 }
-
-declare var SecureStorage: {
-    new (success:()=>void, error:(error:any)=>void, service:string, options:SecureStorageOptions): SecureStorage;
-};
 
 interface CordovaPlugins{
     SecureStorage: SecureStorage
