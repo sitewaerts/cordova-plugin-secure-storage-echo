@@ -25,6 +25,7 @@
       "email": "aurelien.richaud@groupecen.com"
     }
   ],
+  "types": "types/index.d.ts",
   "cordova": {
     "id": "cordova-plugin-secure-storage-echo",
     "platforms": ["android", "ios", "wp8", "windows"]
