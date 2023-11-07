@@ -27,11 +27,6 @@ const Store = require('electron-store');
 
 
 
-// HACK to get VARIABLES for plugin. TODO: verify if this works in released/packaged app
-const pluginId = require('../../package.json').cordova.id
-const pluginVariables = require(path.join(app.getAppPath(), '..', 'electron.json')).installed_plugins[pluginId] || {};
-const appPackageName = pluginVariables['PACKAGE_NAME']
-
 
 /**
  * @typedef {Object} SecureStorageOptions
@@ -59,7 +54,7 @@ const secureStoragePlugin = {
             delete instances[storeName];
         }
         const store = instances[storeName] = new Store({
-            cwd: appPackageName,
+            cwd: _appPackageName,
             name: "cdv-secure-storage-" + storeName,
             encryptionKey : 'MLCr3tikB9zpijaAiaiM' // this is not for security, just for obfuscation. see https://www.npmjs.com/package/electron-store#encryptionkey
         });
@@ -177,33 +172,17 @@ const plugin = function (action, args, callbackContext)
     return true;
 }
 
+let _appPackageName;
+/**
+ * @param {Record<string, string>} variables
+ * @param {(serviceName:string)=>Promise<any>} serviceLoader
+ * @returns {Promise<void>}
+ */
+plugin.init = async (variables, serviceLoader)=>{
+    _appPackageName = variables['PACKAGE_NAME']
+}
+
 plugin.util = secureStoragePluginUtil;
-
-// backwards compatibility: attach api methods for direct access from old cordova-electron platform impl
-Object.keys(secureStoragePlugin).forEach((apiMethod) =>
-{
-    plugin[apiMethod] = (args) =>
-    {
-        return Promise.resolve((resolve, reject) =>
-        {
-            secureStoragePlugin[apiMethod](args, {
-                progress: (data) =>
-                {
-                    console.warn("cordova-plugin-secure-storage-echo: ignoring progress event as not supported in old plugin API", data);
-                },
-                success: (data) =>
-                {
-                    resolve(data)
-                },
-                error: (data) =>
-                {
-                    reject(data)
-                }
-            });
-        });
-    }
-});
-
 
 module.exports = plugin;
 
