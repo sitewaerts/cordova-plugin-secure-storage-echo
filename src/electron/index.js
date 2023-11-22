@@ -45,7 +45,7 @@ const secureStoragePlugin = {
      *
      * @param {string} storeName
      * @param {SecureStorageOptions} opts
-     * @param {CallbackContext} callbackContext
+     * @param {CordovaElectronCallbackContext} callbackContext
      * @void
      */
     init: ([storeName, opts], callbackContext)=>{
@@ -65,7 +65,7 @@ const secureStoragePlugin = {
      *
      * @param {string} storeName
      * @param {string} key
-     * @param {CallbackContext} callbackContext
+     * @param {CordovaElectronCallbackContext} callbackContext
      * @void
      */
     get: ([storeName, key], callbackContext) => {
@@ -84,7 +84,7 @@ const secureStoragePlugin = {
      * @param {string} storeName
      * @param {string} key
      * @param {string} value
-     * @param {CallbackContext} callbackContext
+     * @param {CordovaElectronCallbackContext} callbackContext
      * @void
      */
     set: ([storeName, key, value], callbackContext) => {
@@ -102,7 +102,7 @@ const secureStoragePlugin = {
      *
      * @param {string} storeName
      * @param {string} key
-     * @param {CallbackContext} callbackContext
+     * @param {CordovaElectronCallbackContext} callbackContext
      * @void
      */
     remove: ([storeName, key], callbackContext) => {
@@ -116,7 +116,7 @@ const secureStoragePlugin = {
 
     /**
      * @param {string} storeName
-     * @param {CallbackContext} callbackContext
+     * @param {CordovaElectronCallbackContext} callbackContext
      * @void
      */
     keys: function ([storeName], callbackContext) {
@@ -133,7 +133,7 @@ const secureStoragePlugin = {
 
     /**
      * @param {string} storeName
-     * @param {CallbackContext} callbackContext
+     * @param {CordovaElectronCallbackContext} callbackContext
      * @void
      */
     clear: function ([storeName], callbackContext) {
@@ -151,11 +151,7 @@ const secureStoragePluginUtil = {
 }
 
 /**
- * cordova electron plugin api
- * @param {string} action
- * @param {Array<any>} args
- * @param {CallbackContext} callbackContext
- * @returns {boolean} indicating if action is available in plugin
+ * @type {CordovaElectronPlugin}
  */
 const plugin = function (action, args, callbackContext)
 {
@@ -174,12 +170,11 @@ const plugin = function (action, args, callbackContext)
 
 let _appPackageName;
 /**
- * @param {Record<string, string>} variables
- * @param {(serviceName:string)=>Promise<any>} serviceLoader
+ * @param {CordovaElectronPluginContext} ctx
  * @returns {Promise<void>}
  */
-plugin.init = async (variables, serviceLoader)=>{
-    _appPackageName = variables['PACKAGE_NAME']
+plugin.initialize = async (ctx)=>{
+    _appPackageName = ctx.getPackageName()
 }
 
 plugin.util = secureStoragePluginUtil;
