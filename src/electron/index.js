@@ -53,12 +53,12 @@ const secureStoragePlugin = {
         {
             delete instances[storeName];
         }
-        const store = instances[storeName] = new Store({
+       instances[storeName] = new Store({
             cwd: _appPackageName,
             name: "cdv-secure-storage-" + storeName,
             encryptionKey : 'MLCr3tikB9zpijaAiaiM' // this is not for security, just for obfuscation. see https://www.npmjs.com/package/electron-store#encryptionkey
         });
-        callbackContext.success(store);
+        callbackContext.success();
     },
 
     /**
